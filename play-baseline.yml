@@ -1,9 +1,27 @@
 ---
-  - name: init
-    hosts: localhost
-    tasks:
-      - name: ensure docker is running
-        service:
-          name: docker
-          state: started
+- name: baseline
+  hosts: localhost
+  tasks:
+  - name: baseline | apt update cache
+    ansible.builtin.apt:
+      update_cache: yes
+
+  - name: baseline | apt install prereqs
+    ansible.builtin.apt:
+      pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      state: present
+
+  - name: baseline | curl docker repo's gpg
+    ansible.builtin.get_url:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      dest: /tmp/docker.gpg
+
+  - name: baseline | service start docker
+    ansible.builtin.service:
+      name: docker
+      state: started
 
