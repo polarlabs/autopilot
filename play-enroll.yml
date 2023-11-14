@@ -2,14 +2,20 @@
   - name: enroll
     hosts: localhost
     tasks:
-      - name: install cron
-        apt:
+      - name: enroll | apt: update cache
+        ansible.builtin.apt:
+          update_cache: yes
+
+      - name: enroll | install cron
+        ansible.builtin.apt:
           name: cron
-          start: installed
+          start: present
+
       - name: ensure cron is running
-        service:
+        ansible.builtin.service:
           name: cron
           state: started
+
       - name: run ansible-pull as cron job
         cron:
           name: ansible-pull
