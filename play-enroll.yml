@@ -9,7 +9,7 @@
       - name: enroll | apt install cron
         ansible.builtin.apt:
           name: cron
-          start: present
+          state: present
 
       - name: enroll | service start cron
         ansible.builtin.service:
