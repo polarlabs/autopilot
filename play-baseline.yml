@@ -15,10 +15,16 @@
       - software-properties-common
       state: present
 
-  - name: baseline | curl docker repo's gpg
-    ansible.builtin.get_url:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      dest: /tmp/docker.gpg
+  - name: baseline | apt integrate docker repo
+    block:
+      - name: baseline | get docker repo key
+        ansible.builtin.get_url:
+          url: https://download.docker.com/linux/ubuntu/gpg
+          dest: /etc/apt/keyrings/docker.com.gpg
+      - name: baseline | apt enable docker repo
+        ansible.builtin.apt_repository:
+          repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.com.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+          state: present
 
   - name: baseline | service start docker
     ansible.builtin.service:
