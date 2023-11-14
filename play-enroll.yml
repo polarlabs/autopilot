@@ -2,21 +2,21 @@
   - name: enroll
     hosts: localhost
     tasks:
-      - name: enroll | apt: update cache
+      - name: enroll | apt update cache
         ansible.builtin.apt:
           update_cache: yes
 
-      - name: enroll | install cron
+      - name: enroll | apt install cron
         ansible.builtin.apt:
           name: cron
           start: present
 
-      - name: ensure cron is running
+      - name: enroll | service start cron
         ansible.builtin.service:
           name: cron
           state: started
 
-      - name: run ansible-pull as cron job
+      - name: enroll | cron schedule ansible-pull
         cron:
           name: ansible-pull
           job: ansible-pull --url https://github.com/polarlabs/autopilot play-baseline.yml
