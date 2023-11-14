@@ -1,0 +1,9 @@
+---
+  - name: init
+    hosts: localhost
+    tasks:
+      - name: ensure docker is running
+        service:
+          name: docker
+          state: started
+
