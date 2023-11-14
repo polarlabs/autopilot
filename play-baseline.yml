@@ -25,7 +25,17 @@
       - name: baseline | apt enable docker repo
         ansible.builtin.apt_repository:
           repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.com.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+          filename: docker.com
           state: present
+      - name: baseline | apt update cache
+        ansible.builtin.apt:
+          update_cache: yes
+        changed_when: false
+
+  - name: enroll | apt install docker-ce
+    ansible.builtin.apt:
+      name: docker-ce
+      state: present
 
   - name: baseline | service start docker
     ansible.builtin.service:
