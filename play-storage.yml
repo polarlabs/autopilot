@@ -1,0 +1,72 @@
+---
+# Todo:
+# - ensure that this playbook runs only once
+# - find a way to identify the disk
+
+- name: Storage
+  hosts: localhost
+  connection: local
+
+  vars:
+    disk: "/dev/vda"
+    vg_name: "vg_data"
+    pe_size: "128M"
+    lv_name: "lv_web"
+    lv_size: "4G"
+    fstype: "xfs"
+    mountpoint: "/srv/web"
+
+  tasks:
+    - name: "Storage | Install prereqs ."
+      ansible.builtin.apt:
+        pkg:
+          - parted
+        state: present
+
+    - name: "Storage | Read device information of {{ disk }} ."
+      community.general.parted:
+        device: "{{ disk }}"
+        unit: B
+      register: device_info
+
+    - name: "Storage | Define variables derived from device_info ."
+      ansible.builtin.set_fact:
+        label: "{{ device_info.disk.table }}"
+        pv: "{{ disk }}{{ device_info.partitions | length + 1 }}"
+
+    - name: "Storage | Append partition on {{ disk }}"
+      community.general.parted:
+        device: "{{ disk }}"
+        number: "{{ device_info.partitions | length + 1 }}"
+        label: "{{ label }}"
+        flags: [lvm]
+        part_start: "{{ device_info.partitions[-1].end + 1 }}B"
+        part_end: "100%"
+        state: present
+
+    - name: "Storage | Create volume group {{ vg_name + ' on ' + pv }} ."
+      community.general.lvg:
+        vg: "{{ vg_name }}"
+        pesize: "{{ pe_size }}"
+        pvs: "{{ pv }}"
+
+    - name: "Storage | Create logical volume {{ vg_name + '/' + lv_name + ' with ' + lv_size }} ."
+      community.general.lvol:
+        lv: "{{ lv_name }}"
+        size: "{{ lv_size }}"
+        vg: "{{ vg_name }}"
+        state: present
+
+    - name: "Storage | Create filesystem on {{ '/dev/' + vg_name + '/' + lv_name }} ."
+      community.general.filesystem:
+        device: "{{ '/dev/' + vg_name + '/' + lv_name }}"
+        fstype: "{{ fstype }}"
+        state: present
+
+    - name: "Storage | Mount filesystem to {{ mountpoint }} ."
+      ansible.posix.mount:
+        src: "/dev/{{ vg_name }}/{{ lv_name }}"
+        path: "{{ mountpoint }}"
+        fstype: "{{ fstype }}"
+        boot: true
+        state: mounted
