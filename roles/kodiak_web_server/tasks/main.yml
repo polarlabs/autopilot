@@ -5,5 +5,5 @@
     src: "docker-compose.yml.j2"
     dest: "/srv/web/docker-compose.yml"
     mode: "0400"
-    notify:
-      - "Kodiak web server | Start container"
+  notify:
+    - "Kodiak web server | Start container"
