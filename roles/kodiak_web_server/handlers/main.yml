@@ -6,8 +6,3 @@
     chdir: "/srv/web"
   register: docker_compose_out
   changed_when: docker_compose_out.rc == 0
-
-- name: Kodiak web server | Debug container start
-  ansible.builtin.debug:
-    var: docker_compose_out
-  when: docker_compose_out is defined
