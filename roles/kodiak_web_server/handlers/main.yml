@@ -1,0 +1,8 @@
+---
+
+- name: Kodiak web server | Start container
+  ansible.builtin.command:
+    cmd: "docker compose up -d"
+    chdir: "/srv/web"
+  register: docker_compose_out
+  changed_when: docker_compose_out.rc == 0

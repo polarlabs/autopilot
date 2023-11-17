@@ -1,0 +1,41 @@
+---
+
+- name: Baseline | apt update cache
+  ansible.builtin.apt:
+    update_cache: true
+  changed_when: false
+
+- name: Baseline | apt install prereqs
+  ansible.builtin.apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+
+- name: Baseline | apt integrate docker repo
+  block:
+    - name: Baseline | get docker repo key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.com.asc
+    - name: Baseline | apt enable docker repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.com.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        filename: docker.com
+        state: present
+    - name: Baseline | apt update cache
+      ansible.builtin.apt:
+        update_cache: true
+      changed_when: false
+
+- name: Baseline | apt install docker-ce
+  ansible.builtin.apt:
+    name: docker-ce
+    state: present
+
+- name: Baseline | service start docker
+  ansible.builtin.service:
+    name: docker
+    state: started

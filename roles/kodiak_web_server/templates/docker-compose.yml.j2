@@ -1,0 +1,14 @@
+---
+version: '3'
+
+services:
+  kodiak-web-server:
+    container_name: kodiak-web-server
+    image: ghcr.io/polarlabs/kodiak-web-server:{{ tag }}
+    ports:
+      - 80:8080
+    logging:
+      options:
+        max-size: "4M"
+        max-file: 7
+    restart: unless-stopped

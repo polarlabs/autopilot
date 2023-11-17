@@ -1,6 +1,6 @@
 ---
-- name: Baseline
+- name: Kodiak web server
   hosts: localhost
   connection: local
   roles:
-    - baseline
+    - kodiak_web_server
