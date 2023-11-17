@@ -8,5 +8,5 @@
 
 - name: Kodiak web server | Docker compose
   community.docker.docker_compose:
-    definition: "/srv/web/docker-compose.yml"
+    project_src: "/srv/web"
     state: present
