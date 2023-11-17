@@ -1,0 +1,6 @@
+---
+- name: Kodiak web server
+  hosts: localhost
+  connection: local
+  roles:
+    - kodiak_web_server
