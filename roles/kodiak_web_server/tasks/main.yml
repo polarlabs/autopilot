@@ -5,8 +5,5 @@
     src: "docker-compose.yml.j2"
     dest: "/srv/web/docker-compose.yml"
     mode: "0400"
-
-- name: Kodiak web server | Docker compose
-  community.docker.docker_compose:
-    project_src: "/srv/web"
-    state: present
+    notify:
+      - "Kodiak web server | Start container"
