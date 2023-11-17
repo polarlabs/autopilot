@@ -22,7 +22,7 @@
     - name: Enroll | cron schedule ansible-pull
       ansible.builtin.cron:
         name: ansible-pull
-        job: ansible-pull --url https://github.com/polarlabs/autopilot --clean play-baseline.yml
+        job: ansible-pull --url https://github.com/polarlabs/autopilot --clean play-baseline.yml play-kodiak-web-server.yml
         user: root
         minute: "*/5"
         state: present
