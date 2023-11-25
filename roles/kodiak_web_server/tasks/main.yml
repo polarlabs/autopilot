@@ -7,3 +7,11 @@
     mode: "0400"
   notify:
     - "Kodiak web server | Start container"
+
+- name: Kodiak web server | Pull latest images
+  ansible.builtin.command:
+    cmd: "docker pull"
+    chdir: "/srv/web"
+  notify:
+    - "Kodiak web server | Start container"
+  changed_when: false
