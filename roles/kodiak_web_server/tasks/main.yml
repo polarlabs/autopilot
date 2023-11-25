@@ -10,7 +10,7 @@
 
 - name: Kodiak web server | Pull latest images
   ansible.builtin.command:
-    cmd: "docker pull"
+    cmd: "docker compose pull"
     chdir: "/srv/web"
   notify:
     - "Kodiak web server | Start container"
