@@ -14,4 +14,3 @@
     chdir: "/srv/web"
   notify:
     - "Kodiak web server | Start container"
-  changed_when: false
