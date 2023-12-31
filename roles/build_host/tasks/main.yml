@@ -1,5 +1,11 @@
 ---
 
+- name: Build host | apt install prereqs
+  ansible.builtin.apt:
+    pkg:
+      - gcc
+    state: present
+
 - name: Build host | Create build group
   ansible.builtin.group:
     name: "build"
@@ -14,3 +20,10 @@
     comment: "Build"
     shell: "/bin/bash"
     state: "present"
+
+- name: Build host | Check if cargo is installed
+  ansible.builtin.command:
+    cmd: "cargo --version"
+    register: cargo_exists
+    ignore_errors: true
+  changed_when: false
