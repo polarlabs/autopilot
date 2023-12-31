@@ -2,15 +2,15 @@
 
 - name: Build host | Create build group
   ansible.builtin.group:
-    name: build
+    name: "build"
     gid: 1001
-    state: present
+    state: "present"
 
 - name: Build host | Create build user
   ansible.builtin.user:
-    name: build
+    name: "build"
     uid: 1001
-    group: build
+    group: "build"
     comment: "Build"
-    shell: /bin/bash
-    state: present
+    shell: "/bin/bash"
+    state: "present"
