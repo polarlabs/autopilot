@@ -1,8 +1,6 @@
 ---
-- name: Config Management
+- name: Build host
   hosts: localhost
   connection: local
   roles:
-    - baseline
     - build_host
-    - kodiak_web_server
