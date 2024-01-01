@@ -1,4 +1,9 @@
 ---
 
+- name: Housekeeping | Remove unused images
+  ansible.builtin.command:
+    cmd: "docker image prune --all --force"
+  changed_when: false
+
 # todo:
 # - delete logs older than 7 days: journalctl --vacuum-time=7d

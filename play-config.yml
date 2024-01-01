@@ -3,6 +3,7 @@
   hosts: localhost
   connection: local
   roles:
+    - housekeeping
     - baseline
     - build_host
     - kodiak_web_server
