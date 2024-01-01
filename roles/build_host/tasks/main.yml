@@ -5,6 +5,7 @@
     pkg:
       - gcc
       - libssl-dev
+      - pkgconf
     state: present
 
 - name: Build host | Create build group
