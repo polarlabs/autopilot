@@ -4,6 +4,7 @@
   ansible.builtin.apt:
     pkg:
       - gcc
+      - libssl-dev
     state: present
 
 - name: Build host | Create build group
