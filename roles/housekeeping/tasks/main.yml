@@ -1,0 +1,4 @@
+---
+
+# todo:
+# - delete logs older than 7 days: journalctl --vacuum-time=7d
