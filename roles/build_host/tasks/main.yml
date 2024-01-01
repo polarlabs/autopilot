@@ -26,5 +26,6 @@
 - name: Build host | Check if cargo is installed
   ansible.builtin.command:
     cmd: "cargo --version"
-    register: cargo_exists
+  register: cargo_exists
+  ignore_errors: true
   changed_when: false
