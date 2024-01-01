@@ -17,6 +17,8 @@
     name: "build"
     uid: 1001
     group: "build"
+    groups: "docker"
+    append: true
     comment: "Build"
     shell: "/bin/bash"
     state: "present"
